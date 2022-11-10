@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const {body, validationResult} = require('express-validator');
 const {User, Show} = require('../models/index.js');
 const showRouter = Router();
 
@@ -37,34 +38,51 @@ showRouter.get('/genre/:genre', async (req, res) => {
 })
 
 //get one show and update the rating
-showRouter.put('/:show/rating', async (req, res) => {
-    try {
-        const show = await Show.findOne({where: {id: req.params.show}});
-        if(show){
-            if(req.body.rating) await show.update({rating : req.body.rating})
-            res.status(200).json(show);
-        }else{
-            res.sendStatus(404);
-        }        
-    } catch (error) {
-        res.status(404).send(error);
+showRouter.put('/:show/rating',
+    body('rating').isNumeric().notEmpty(),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).send({errors: errors.array()});
+        }
+
+        try {
+            const show = await Show.findOne({where: {id: req.params.show}});
+            if(show){
+                if(req.body.rating) await show.update({rating : req.body.rating})
+                res.status(200).json(show);
+            }else{
+                res.sendStatus(404);
+            }        
+        } catch (error) {
+            res.status(404).send(error);
+        }
     }
-})
+)
 
 //get one show and update status
-showRouter.put('/:show/update', async (req, res) => {
-    try {
-        const show = await Show.findOne({where: {id: req.params.show}});
-        if(show){
-            if(req.body.status) await show.update({status : req.body.status})
-            res.status(200).json(show);
-        }else{
-            res.sendStatus(404);
-        }        
-    } catch (error) {
-        res.status(404).send(error);
+showRouter.put('/:show/update', 
+    body('status').isLength({max:25, min:5}).notEmpty(),
+    async (req, res) => {
+
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).send({errors: errors.array()});
+        }
+
+        try {
+            const show = await Show.findOne({where: {id: req.params.show}});
+            if(show){
+                if(req.body.status) await show.update({status : req.body.status})
+                res.status(200).json(show);
+            }else{
+                res.sendStatus(404);
+            }        
+        } catch (error) {
+            res.status(404).send(error);
+        }
     }
-})
+)
 
 //delete one show
 showRouter.delete('/:show', async (req, res) => {
