@@ -1,6 +1,6 @@
 const express = require("express");
 const userRouter = require("./routes/user");
-const showRouter = require("./routes/user");
+const showRouter = require("./routes/show");
 const app = express();
 const seed = require('./seed')
 
