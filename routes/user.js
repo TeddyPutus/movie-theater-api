@@ -88,4 +88,25 @@ userRouter.post('/',
     }
 )
 
+//remove show from user
+userRouter.patch('/:user/shows/:show',
+    param('user').isNumeric(),
+    param('show').isNumeric(),
+    checkErrors, 
+    async (req, res) => {
+        try {
+            const user = await User.findOne({where: {id: req.params.user}});
+            const show = await Show.findOne({where: {id: req.params.show}});
+            if(user && show){
+                await user.removeShow(show);
+                res.sendStatus(200); //OK
+            }else{
+                res.sendStatus(404); // Not found
+            }      
+        } catch (error) {
+            res.status(500).send(error); //Internal server error
+        }
+    }
+)
+
 module.exports = userRouter;

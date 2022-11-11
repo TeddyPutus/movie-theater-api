@@ -170,6 +170,39 @@ describe("Testing User routes", () => {
             })
         })
     })
+
+    describe("Remove show from a user", () => {
+        describe("Given ID of a valid user and valid ID of show", () => {
+            it("Returns 200 status", async () => {
+                const { statusCode } = await request(app).patch("/users/1/shows/1");
+                expect(statusCode).toBe(200);
+            })
+            it("Show has actually been removed from user", async () => {
+                const { body } = await request(app).get("/users/1/shows");
+                expect(body.length).toBe(1);
+                expect(body[0].title).toBe("X-Files");
+            })
+        })
+
+        describe("Given invalid data", () => {
+            it("Returns 400 status when given non numeric user ID", async () => {
+                const { statusCode } = await request(app).patch("/users/thisisnotanumber/shows/2");
+                expect(statusCode).toBe(400);
+            })
+            it("Returns 400 status when given non numeric show ID", async () => {
+                const { statusCode } = await request(app).patch("/users/1/shows/thisisnotanumber");
+                expect(statusCode).toBe(400);
+            })
+            it("Returns 404 status when no User has that ID", async () => {
+                const { statusCode } = await request(app).patch("/users/500/shows/2");
+                expect(statusCode).toBe(404);
+            })
+            it("Returns 404 status when no show has that ID", async () => {
+                const { statusCode } = await request(app).patch("/users/1/shows/100");
+                expect(statusCode).toBe(404);
+            })
+        })
+    })
 });
 
 describe("Testing Show routes", () => {
