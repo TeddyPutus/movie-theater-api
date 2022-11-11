@@ -12,9 +12,11 @@ app.use(express.json());
 app.use('/users', userRouter);
 app.use('/shows', showRouter);
 
-app.listen(5001, async() => {
-    await seed();
-    console.log('Listening on port 5001');
-});
+//Comment out app.listen when running supertest file
+
+// app.listen(5001, async() => {
+//     await seed();
+//     console.log('Listening on port 5001');
+// });
 
 module.exports = app;
