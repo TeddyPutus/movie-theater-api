@@ -5,7 +5,7 @@
   "main": "db.js",
   "scripts": {
     "test": "jest",
-    "supertest": "jest test/test.test.js --verbose --silent=false --runInBand --coverage=false",
+    "supertest": "jest test/test.test.js --verbose --silent --runInBand --coverage",
     "start": "nodemon server.js"
   },
   "author": "",

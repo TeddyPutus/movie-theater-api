@@ -93,7 +93,8 @@ showRouter.delete('/:show',
     async (req, res) => {
         try {
             const show = await Show.destroy({where: {id: req.params.show}});
-            res.json(show); //200 - OK sent automatically
+            if(show) res.json(show); //200 - OK sent automatically
+            else res.status(404).json(show); //Return 0, and status 404 - not found
         } catch (error) {
             res.status(500).send(error); //Internal server error
         }
@@ -106,9 +107,9 @@ showRouter.delete('/:show',
 
 //create show title, genre, rating, status
 showRouter.post('/',
-    body('title').isLength({max:50}).notEmpty(),
+    body('title').isLength({max:25}).notEmpty(),
     body('status').isLength({max:25, min:5}).notEmpty(),
-    param('genre').isAlpha().isLength({max:25, min:3}),
+    body('genre').isAlpha().isLength({max:25, min:3}).notEmpty(),
     body('rating').isNumeric().notEmpty(),
     checkErrors,
     async (req, res) => {

@@ -247,7 +247,7 @@ describe("Testing Show routes", () => {
                 const { statusCode } = await request(app).get("/shows/thisisnotanumber");
                 expect(statusCode).toBe(400);
             })
-            it("Returns 404 status when no User has that ID", async () => {
+            it("Returns 404 status when no show has that ID", async () => {
                 const { statusCode } = await request(app).get("/shows/500");
                 expect(statusCode).toBe(404);
             })
@@ -321,4 +321,149 @@ describe("Testing Show routes", () => {
             })
         })
     })
+
+    describe("Update the status of a show", () => {
+        describe("Given valid show and rating", () => {
+            it("Returns 200 status", async () => {
+                const { statusCode } = await request(app).put("/shows/2/update").send({  status: "cancelled" });
+                expect(statusCode).toBe(200);
+            })
+            it("Returns JSON data", async () => {
+                const { headers } = await request(app).put("/shows/2/update").send({  rating: "cancelled" });
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Show has been updated", async () => {
+                const { body } = await request(app).get("/shows/2");
+                expect(body.status).toBe("cancelled")
+            })
+        })
+
+        describe("Given invalid data", () => {
+            it("Returns 400 status when no status given", async () => {
+                const { statusCode } = await request(app).put("/shows/2/update")
+                expect(statusCode).toBe(400);
+            })
+            it("Returns 400 status when status longer than 25 characters", async () => {
+                const { statusCode } = await request(app).put("/shows/2/update").send({  status: "It has been cancelled because it isn't very good" });
+                expect(statusCode).toBe(400);
+            })
+            it("Returns 400 status when status less than 5 characters", async () => {
+                const { statusCode } = await request(app).put("/shows/2/update").send({  status: "dead" });
+                expect(statusCode).toBe(400);
+            })
+            it("Returns 400 status when show ID not numeric", async () => {
+                const { statusCode } = await request(app).put("/shows/two/update").send({  status: "cancelled" });
+                expect(statusCode).toBe(400);
+            })
+            it("Returns 404 status when no show has given ID", async () => {
+                const { statusCode } = await request(app).put("/shows/2000/update").send({  status: "cancelled" });
+                expect(statusCode).toBe(404);
+            })
+        })
+    })
+
+    describe("Delete a show", () => {
+        describe("Given valid show ID", () => {
+            it("Returns 200 status", async () => {
+                const { statusCode } = await request(app).delete("/shows/11");
+                expect(statusCode).toBe(200);
+            })
+            it("Returns number of shows deleted (1)", async () => {
+                const { headers, body } = await request(app).delete("/shows/10");
+                expect(body).toBe(1);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns 404 status when trying to retrieve deleted show", async () => {
+                const { statusCode } = await request(app).get("/shows/10");
+                expect(statusCode).toBe(404);
+            })
+        })
+
+        describe("Given invalid data", () => {
+            it("Returns 400 status when show ID not numeric", async () => {
+                const { statusCode } = await request(app).delete("/shows/five");
+                expect(statusCode).toBe(400);
+            })
+            it("Returns number of shows deleted (0) when the show didn't exist", async () => {
+                const { headers, body } = await request(app).delete("/shows/10");
+                expect(body).toBe(0);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns 404 status when show didn't exist", async () => {
+                const { statusCode } = await request(app).delete("/shows/10");
+                expect(statusCode).toBe(404);
+            })
+        })
+    })
+
+    describe("Create a show", () => {
+        describe("Given valid data", () => {
+            it("Returns 200 status", async () => {
+                const { statusCode, headers } = await request(app).post("/shows").send({ title: "Rings of Power", status:"on-going", genre:"Drama", rating:1 });
+                expect(statusCode).toBe(200);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Created Show is now in database", async () => {
+                const { body } = await request(app).get("/shows/12");
+                expect(body.id).toBe(12);
+                expect(body.title).toBe("Rings of Power");
+                expect(body.genre).toBe("Drama");
+            })
+        })
+
+        describe("Given invalid data", () => {
+            it("Returns 400 status when no title given", async () => {
+                const { statusCode, headers } = await request(app).post("/shows").send({ status:"on-going", genre:"Drama", rating:1 });
+                expect(statusCode).toBe(400);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns 400 status when title longer than 25 characters", async () => {
+                const { statusCode, headers } = await request(app).post("/shows").send({ title: "Rings of Powerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr", status:"on-going", genre:"Drama", rating:1 });
+                expect(statusCode).toBe(400);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns 400 status when no status given", async () => {
+                const { statusCode, headers } = await request(app).post("/shows").send({ title: "Rings of Power", genre:"Drama", rating:1 });
+                expect(statusCode).toBe(400);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns 400 status when status more than 25 characters", async () => {
+                const { statusCode, headers } = await request(app).post("/shows").send({ title: "Rings of Power",  status:"on-going for some unknown reason", genre:"Drama", rating:1 });
+                expect(statusCode).toBe(400);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns 400 status when status less than 5 characters", async () => {
+                const { statusCode, headers } = await request(app).post("/shows").send({ title: "Rings of Power",  status:"on-going for some unknown reason", genre:"Drama", rating:1 });
+                expect(statusCode).toBe(400);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns 400 status when genre is missing", async () => {
+                const { statusCode, headers } = await request(app).post("/shows").send({ title: "Rings of Power", status:"on-going", rating:1 });
+                expect(statusCode).toBe(400);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns 400 status when genre is less than 3 characters", async () => {
+                const { statusCode, headers } = await request(app).post("/shows").send({ title: "Rings of Power", status:"on-going", genre:"Dr", rating:1 });
+                expect(statusCode).toBe(400);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns 400 status when genre is more than 25 characters", async () => {
+                const { statusCode, headers } = await request(app).post("/shows").send({ title: "Rings of Power", status:"on-going", genre:"Dramaramramramramramramramramramramramramramramramram", rating:1 });
+                expect(statusCode).toBe(400);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns 400 status when no rating given", async () => {
+                const { statusCode, headers } = await request(app).post("/shows").send({ status:"on-going", genre:"Drama"});
+                expect(statusCode).toBe(400);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns 400 status when rating is non numeric", async () => {
+                const { statusCode, headers } = await request(app).post("/shows").send({ status:"on-going", genre:"Drama", rating:"two"});
+                expect(statusCode).toBe(400);
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+
+        })
+    })
+    
 })
