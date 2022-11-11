@@ -21,7 +21,8 @@ userRouter.get('/:user',
     async (req, res) => {
         try {
             const userList = await User.findOne({where: {id: req.params.user}});
-            res.json(userList); //200 - OK sent automatically
+            if(userList) res.json(userList); //200 - OK sent automatically
+            else res.sendStatus(404); //Not found
         } catch (error) {
             res.status(500).send(error); //internal server error
         }
@@ -55,9 +56,9 @@ userRouter.put('/:user/shows/:show',
     async (req, res) => {
         try {
             const user = await User.findOne({where: {id: req.params.user}});
-            if(user){
-                const show = await Show.findOne({where: {id: req.params.show}});
-                user.addShow(show);
+            const show = await Show.findOne({where: {id: req.params.show}});
+            if(user && show){
+                await user.addShow(show);
                 res.sendStatus(200); //OK
             }else{
                 res.sendStatus(404); // Not found
