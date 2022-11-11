@@ -68,4 +68,23 @@ userRouter.put('/:user/shows/:show',
     }
 )
 
+/* ----------------------------------------------------------------------------------------------- */
+/* -------------------------------------- Additional Routes -------------------------------------- */
+/* ----------------------------------------------------------------------------------------------- */
+
+//create user route username is email, password is at least 6 characters
+userRouter.post('/',
+    body('username').isEmail().notEmpty(),
+    body('password').isLength({min: 6}).notEmpty(),
+    checkErrors,
+    async (req, res) => {
+        try {
+            const user = User.create({username: req.body.username, password: req.body.password});
+            res.json(user); //200 - OK sent automatically
+        } catch (error) {
+            res.status(500).send(error); //Internal server error
+        }
+    }
+)
+
 module.exports = userRouter;

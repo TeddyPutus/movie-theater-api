@@ -91,12 +91,34 @@ showRouter.delete('/:show',
     param('show').isNumeric(),
     checkErrors,
     async (req, res) => {
-    try {
-        const show = await Show.destroy({where: {id: req.params.show}});
-        res.json(show); //200 - OK sent automatically
-    } catch (error) {
-        res.status(500).send(error); //Internal server error
+        try {
+            const show = await Show.destroy({where: {id: req.params.show}});
+            res.json(show); //200 - OK sent automatically
+        } catch (error) {
+            res.status(500).send(error); //Internal server error
+        }
     }
-})
+)
+
+/* ----------------------------------------------------------------------------------------------- */
+/* -------------------------------------- Additional Routes -------------------------------------- */
+/* ----------------------------------------------------------------------------------------------- */
+
+//create show title, genre, rating, status
+showRouter.post('/',
+    body('title').isLength({max:50}).notEmpty(),
+    body('status').isLength({max:25, min:5}).notEmpty(),
+    param('genre').isAlpha().isLength({max:25, min:3}),
+    body('rating').isNumeric().notEmpty(),
+    checkErrors,
+    async (req, res) => {
+        try {
+            const show = Show.create({title: req.body.title, status: req.body.status, genre: req.body.genre, rating: req.body.rating});
+            res.json(show); //200 - OK sent automatically
+        } catch (error) {
+            res.status(500).send(error); //Internal server error
+        }
+    }
+)
 
 module.exports = showRouter;
