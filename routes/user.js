@@ -1,5 +1,7 @@
 const { Router } = require("express");
 const {User, Show} = require('../models/index.js');
+const {body, param, validationResult} = require('express-validator');
+const checkErrors = require('./middleware');
 const userRouter = Router();
 
 //get all users
