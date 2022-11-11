@@ -8,9 +8,9 @@ const showRouter = Router();
 showRouter.get('/', async (req, res) => {
     try {
         const showList = await Show.findAll();
-        res.json(showList);
+        res.json(showList); //200 - OK sent automatically
     } catch (error) {
-        res.status(404).send(error);
+        res.status(500).send(error); //Internal server error
     }
 })
 
@@ -22,12 +22,12 @@ showRouter.get('/:show',
         try {
             const show = await Show.findOne({where: {id: req.params.show}});
             if(show){
-                res.status(200).json(show);
+                res.json(show); //200 - OK sent automatically
             }else{
-                res.sendStatus(400);
+                res.sendStatus(404); //Not found
             }       
         } catch (error) {
-            res.status(404).send(error);
+            res.status(500).send(error); //Internal server error
         }
     }
 )
@@ -39,9 +39,9 @@ showRouter.get('/genre/:genre',
     async (req, res) => {
         try {
             const showList = await Show.findAll({where: {genre: req.params.genre}});
-            res.json(showList);
+            res.json(showList); //200 - OK sent automatically
         } catch (error) {
-            res.status(404).send(error);
+            res.status(500).send(error);  //Internal server error
         }
     }
 )
@@ -56,12 +56,12 @@ showRouter.put('/:show/rating',
             const show = await Show.findOne({where: {id: req.params.show}});
             if(show){
                 if(req.body.rating) await show.update({rating : req.body.rating})
-                res.status(200).json(show);
+                res.json(show); //200 - OK sent automatically
             }else{
-                res.sendStatus(404);
+                res.sendStatus(404); //Not found
             }        
         } catch (error) {
-            res.status(404).send(error);
+            res.status(500).send(error); //Internal server error
         }
     }
 )
@@ -76,12 +76,12 @@ showRouter.put('/:show/update',
             const show = await Show.findOne({where: {id: req.params.show}});
             if(show){
                 if(req.body.status) await show.update({status : req.body.status})
-                res.status(200).json(show);
+                res.json(show); //200 - OK sent automatically
             }else{
-                res.sendStatus(404);
+                res.sendStatus(404); //Not found
             }        
         } catch (error) {
-            res.status(404).send(error);
+            res.status(500).send(error); //Internal server error
         }
     }
 )
@@ -93,9 +93,9 @@ showRouter.delete('/:show',
     async (req, res) => {
     try {
         const show = await Show.destroy({where: {id: req.params.show}});
-        res.status(200).json(show);
+        res.json(show); //200 - OK sent automatically
     } catch (error) {
-        res.status(404).send(error);
+        res.status(500).send(error); //Internal server error
     }
 })
 
