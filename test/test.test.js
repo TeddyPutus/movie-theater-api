@@ -1,13 +1,12 @@
 const app = require("../server.js");
 const seed = require("../seed.js");
 const request = require("supertest");
-const { getMaxListeners } = require("../server.js");
 
 beforeAll(async () => {
     await seed();
 })
 
-describe("Testing the user routes", () => {
+describe("Testing User routes", () => {
 
     describe("Get all users", () => {
         it("Returns 200 status", async () => {
@@ -172,3 +171,121 @@ describe("Testing the user routes", () => {
         })
     })
 });
+
+describe("Testing Show routes", () => {
+    describe("Get all shows", () => {
+        it("Returns 200 status", async () => {
+            const { statusCode } = await request(app).get("/shows");
+            expect(statusCode).toBe(200);
+        })
+        it("Returns JSON data", async () => {
+            const { headers } = await request(app).get("/shows");
+            expect(headers["content-type"]).toMatch("application/json");
+        })
+        it("Returns array of Shows", async () => {
+            const { body } = await request(app).get("/shows");
+            
+            expect(Array.isArray(body)).toBe(true);
+            expect(
+              body.every(({ title, genre, rating, status }) => title && genre && rating && status)
+            );
+        })
+    })
+
+    describe("Get one show", () => {
+        describe("Given ID of a valid show", () => {
+            it("Returns 200 status", async () => {
+                const { statusCode } = await request(app).get("/shows/1");
+                expect(statusCode).toBe(200);
+            })
+            it("Returns JSON data", async () => {
+                const { headers } = await request(app).get("/shows/1");
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns correct User", async () => {
+                const { body } = await request(app).get("/shows/1");
+                expect(body.id).toBe(1);
+                expect(body.title).toBe('King of Queens');
+            })
+        })
+
+        describe("Given invalid ID", () => {
+            it("Returns 400 status when given non numeric ID", async () => {
+                const { statusCode } = await request(app).get("/shows/thisisnotanumber");
+                expect(statusCode).toBe(400);
+            })
+            it("Returns 404 status when no User has that ID", async () => {
+                const { statusCode } = await request(app).get("/shows/500");
+                expect(statusCode).toBe(404);
+            })
+        })
+    })
+
+    describe("Get all shows of a given genre", () => {
+        describe("Given valid genre", () => {
+            it("Returns 200 status", async () => {
+                const { statusCode } = await request(app).get("/shows/genre/Comedy");
+                expect(statusCode).toBe(200);
+            })
+            it("Returns JSON data", async () => {
+                const { headers } = await request(app).get("/shows/genre/Comedy");
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Returns array of Shows", async () => {
+                const { body } = await request(app).get("/shows/genre/Comedy");
+                
+                expect(Array.isArray(body)).toBe(true);
+                expect(
+                  body.every(({ title, genre, rating, status }) => title && genre && rating && status)
+                );
+            })
+        })
+
+        describe("Given invalid genre", () => {
+            it("Returns 400 status when genre is over 25 characters", async () => {
+                const { statusCode } = await request(app).get("/shows/genre/someRandomGenreThatHasAStupidlyLongNameForSomeReason");
+                expect(statusCode).toBe(400);
+            })
+            it("Returns 400 status when genre is under 3 characters", async () => {
+                const { statusCode } = await request(app).get("/shows/genre/tv");
+                expect(statusCode).toBe(400);
+            })
+        })
+    })
+
+    describe("Update the rating of a show", () => {
+        describe("Given valid show and rating", () => {
+            it("Returns 200 status", async () => {
+                const { statusCode } = await request(app).put("/shows/2/rating").send({  rating: 10 });
+                expect(statusCode).toBe(200);
+            })
+            it("Returns JSON data", async () => {
+                const { headers } = await request(app).put("/shows/2/rating").send({  rating: 10 });
+                expect(headers["content-type"]).toMatch("application/json");
+            })
+            it("Show has been updated", async () => {
+                const { body } = await request(app).get("/shows/2");
+                expect(body.rating).toBe(10)
+            })
+        })
+
+        describe("Given invalid data", () => {
+            it("Returns 400 status when no rating given", async () => {
+                const { statusCode } = await request(app).put("/shows/2/rating")
+                expect(statusCode).toBe(400);
+            })
+            it("Returns 400 status when rating not numeric", async () => {
+                const { statusCode } = await request(app).put("/shows/2/rating").send({  rating: "It was very good" });
+                expect(statusCode).toBe(400);
+            })
+            it("Returns 400 status when show ID not numeric", async () => {
+                const { statusCode } = await request(app).put("/shows/two/rating").send({  rating: 10 });
+                expect(statusCode).toBe(400);
+            })
+            it("Returns 404 status when no show has given ID", async () => {
+                const { statusCode } = await request(app).put("/shows/2000/rating").send({  rating: 10 });
+                expect(statusCode).toBe(404);
+            })
+        })
+    })
+})
