@@ -1,6 +1,7 @@
 const app = require("../server.js");
 const seed = require("../seed.js");
 const request = require("supertest");
+const {db} = require('../db')
 
 beforeAll(async () => {
     await seed();
@@ -465,5 +466,53 @@ describe("Testing Show routes", () => {
 
         })
     })
-    
+    describe("Get 500 errors, when server is closed", () => {
+        beforeAll(async () => {
+            await db.close();
+        })
+        it("Get users", async () => {
+            const { statusCode } = await request(app).get("/users");
+            expect(statusCode).toBe(500);
+        })
+        it("Get one user", async () => {
+            const { statusCode } = await request(app).get("/users/1");
+            expect(statusCode).toBe(500);
+        })
+        it("Add show to user", async () => {
+            const { statusCode } = await request(app).put("/users/1/shows/1");
+            expect(statusCode).toBe(500);
+        })
+        it("Get user shows", async () => {
+            const { statusCode } = await request(app).get("/users/1/shows");
+            expect(statusCode).toBe(500);
+          })
+          it("add show to user", async () => {
+            const { statusCode } = await request(app).patch("/users/1/shows/1");
+            expect(statusCode).toBe(500);
+          })
+          it("Get all shows", async () => {
+            const { statusCode } = await request(app).get("/shows");
+            expect(statusCode).toBe(500);
+          })
+          it("get one show", async () => {
+            const { statusCode } = await request(app).get("/shows/1");
+            expect(statusCode).toBe(500);
+          })
+          it("Get all shows of one genre", async () => {
+            const { statusCode } = await request(app).get("/shows/genre/Comedy");
+            expect(statusCode).toBe(500);
+          })
+          it("Update rating", async () => {
+            const { statusCode } = await request(app).put("/shows/2/rating").send({  rating: 10 });
+            expect(statusCode).toBe(500);
+          })
+          it("Update status", async () => {
+            const { statusCode } = await request(app).put("/shows/2/update").send({  status: "cancelled" });
+            expect(statusCode).toBe(500);
+          })
+          it("delete a show", async () => {
+            const { statusCode } = await request(app).delete("/shows/11");
+            expect(statusCode).toBe(500);
+          })
+    })
 })

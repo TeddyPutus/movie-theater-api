@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1668180330282" clover="3.2.0">
-  <project timestamp="1668180330282" name="All files">
-    <metrics statements="149" coveredstatements="136" conditionals="26" coveredconditionals="24" methods="17" coveredmethods="17" elements="192" coveredelements="177" complexity="0" loc="149" ncloc="149" packages="3" files="9" classes="9"/>
+<coverage generated="1668181337371" clover="3.2.0">
+  <project timestamp="1668181337371" name="All files">
+    <metrics statements="149" coveredstatements="147" conditionals="26" coveredconditionals="24" methods="17" coveredmethods="17" elements="192" coveredelements="188" complexity="0" loc="149" ncloc="149" packages="3" files="9" classes="9"/>
     <package name="movie-theater-api">
       <metrics statements="31" coveredstatements="31" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
       <file name="db.js" path="/Users/eps09/week7Project/movie-theater-api/db.js">
@@ -69,65 +69,65 @@
       </file>
     </package>
     <package name="movie-theater-api.routes">
-      <metrics statements="107" coveredstatements="94" conditionals="26" coveredconditionals="24" methods="14" coveredmethods="14"/>
+      <metrics statements="107" coveredstatements="105" conditionals="26" coveredconditionals="24" methods="14" coveredmethods="14"/>
       <file name="middleware.js" path="/Users/eps09/week7Project/movie-theater-api/routes/middleware.js">
         <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
-        <line num="6" count="74" type="stmt"/>
-        <line num="8" count="74" type="cond" truecount="2" falsecount="0"/>
+        <line num="6" count="83" type="stmt"/>
+        <line num="8" count="83" type="cond" truecount="2" falsecount="0"/>
         <line num="9" count="32" type="stmt"/>
         <line num="10" count="32" type="stmt"/>
         <line num="11" count="32" type="stmt"/>
-        <line num="13" count="42" type="stmt"/>
+        <line num="13" count="51" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
       </file>
       <file name="show.js" path="/Users/eps09/week7Project/movie-theater-api/routes/show.js">
-        <metrics statements="50" coveredstatements="43" conditionals="12" coveredconditionals="10" methods="7" coveredmethods="7"/>
+        <metrics statements="50" coveredstatements="49" conditionals="12" coveredconditionals="10" methods="7" coveredmethods="7"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
-        <line num="10" count="3" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
         <line num="11" count="3" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
-        <line num="22" count="8" type="stmt"/>
-        <line num="23" count="8" type="stmt"/>
+        <line num="22" count="9" type="stmt"/>
+        <line num="23" count="9" type="stmt"/>
         <line num="24" count="8" type="cond" truecount="2" falsecount="0"/>
         <line num="25" count="6" type="stmt"/>
         <line num="27" count="2" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
         <line num="36" count="1" type="stmt"/>
-        <line num="40" count="3" type="stmt"/>
-        <line num="41" count="3" type="stmt"/>
+        <line num="40" count="4" type="stmt"/>
+        <line num="41" count="4" type="stmt"/>
         <line num="42" count="3" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
         <line num="50" count="1" type="stmt"/>
-        <line num="55" count="3" type="stmt"/>
-        <line num="56" count="3" type="stmt"/>
+        <line num="55" count="4" type="stmt"/>
+        <line num="56" count="4" type="stmt"/>
         <line num="57" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="58" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="59" count="2" type="stmt"/>
         <line num="61" count="1" type="stmt"/>
-        <line num="64" count="0" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
         <line num="70" count="1" type="stmt"/>
-        <line num="75" count="2" type="stmt"/>
-        <line num="76" count="2" type="stmt"/>
+        <line num="75" count="3" type="stmt"/>
+        <line num="76" count="3" type="stmt"/>
         <line num="77" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="78" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="79" count="1" type="stmt"/>
         <line num="81" count="1" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
+        <line num="84" count="1" type="stmt"/>
         <line num="90" count="1" type="stmt"/>
-        <line num="94" count="4" type="stmt"/>
-        <line num="95" count="4" type="stmt"/>
+        <line num="94" count="5" type="stmt"/>
+        <line num="95" count="5" type="stmt"/>
         <line num="96" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="97" count="2" type="stmt"/>
-        <line num="99" count="0" type="stmt"/>
+        <line num="99" count="1" type="stmt"/>
         <line num="109" count="1" type="stmt"/>
         <line num="116" count="1" type="stmt"/>
         <line num="117" count="1" type="stmt"/>
@@ -136,54 +136,54 @@
         <line num="125" count="1" type="stmt"/>
       </file>
       <file name="user.js" path="/Users/eps09/week7Project/movie-theater-api/routes/user.js">
-        <metrics statements="48" coveredstatements="42" conditionals="12" coveredconditionals="12" methods="6" coveredmethods="6"/>
+        <metrics statements="48" coveredstatements="47" conditionals="12" coveredconditionals="12" methods="6" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
-        <line num="10" count="3" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
         <line num="11" count="3" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
-        <line num="22" count="5" type="stmt"/>
-        <line num="23" count="5" type="stmt"/>
+        <line num="22" count="6" type="stmt"/>
+        <line num="23" count="6" type="stmt"/>
         <line num="24" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="25" count="1" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
-        <line num="37" count="7" type="stmt"/>
-        <line num="38" count="7" type="stmt"/>
+        <line num="37" count="8" type="stmt"/>
+        <line num="38" count="8" type="stmt"/>
         <line num="39" count="7" type="cond" truecount="2" falsecount="0"/>
         <line num="40" count="6" type="stmt"/>
         <line num="41" count="6" type="stmt"/>
         <line num="43" count="1" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
         <line num="52" count="1" type="stmt"/>
-        <line num="57" count="5" type="stmt"/>
-        <line num="58" count="5" type="stmt"/>
+        <line num="57" count="6" type="stmt"/>
+        <line num="58" count="6" type="stmt"/>
         <line num="59" count="5" type="stmt"/>
         <line num="60" count="5" type="cond" truecount="4" falsecount="0"/>
         <line num="61" count="3" type="stmt"/>
         <line num="62" count="3" type="stmt"/>
         <line num="64" count="2" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
+        <line num="67" count="1" type="stmt"/>
         <line num="77" count="1" type="stmt"/>
         <line num="82" count="1" type="stmt"/>
         <line num="83" count="1" type="stmt"/>
         <line num="84" count="1" type="stmt"/>
         <line num="86" count="0" type="stmt"/>
         <line num="92" count="1" type="stmt"/>
-        <line num="97" count="3" type="stmt"/>
-        <line num="98" count="3" type="stmt"/>
+        <line num="97" count="4" type="stmt"/>
+        <line num="98" count="4" type="stmt"/>
         <line num="99" count="3" type="stmt"/>
         <line num="100" count="3" type="cond" truecount="4" falsecount="0"/>
         <line num="101" count="1" type="stmt"/>
         <line num="102" count="1" type="stmt"/>
         <line num="104" count="2" type="stmt"/>
-        <line num="107" count="0" type="stmt"/>
+        <line num="107" count="1" type="stmt"/>
         <line num="112" count="1" type="stmt"/>
       </file>
     </package>
